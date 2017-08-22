@@ -1,0 +1,28 @@
+.score {
+    width: 50px;
+    display: inline-block;
+}
+#score {
+    display: table;
+    margin: auto;
+    background: #DDD;
+    border-radius: 5px;
+    height: 50px;
+    margin-bottom: -5px;
+    width: 640px;
+}
+#score div {
+    color: gray;
+    display: inline;
+    font-family: arial, sans-serif;
+    font-size: 22px;
+    margin-right: 20px;
+}
+#score input[type=text] {
+    background: none;
+    border: hidden;
+    height: 45px;
+    width: 220px;
+    
+}
+
