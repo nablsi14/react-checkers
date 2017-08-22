@@ -7,26 +7,29 @@
  */
 const formatDate = date => {
     if (!(date instanceof Date))
-        throw new TypeError("argument 'date' must be of type Date");
-    let day = addZero(date.getDate());
-    let hours = (() => {
-        let h = date.getHours();
-        if (h > 12) {
+        throw new TypeError("Argument 'date' must be of type Date");
+    
+    const day = addZero(date.getDate());
+    const hours = (() => {
+        const h = date.getHours();
+        if (h > 12)
             return addZero(h - 12);
-        } else if (h === 0) 
+        else if (h === 0) 
             return 12;
         return addZero(h);
     })();
-    let mins = addZero(date.getMinutes());
-    let month = addZero(date.getMonth() + 1);
-    let period = date.getHours() > 12 ? "pm" : "am";
-    let year = date.getFullYear().toString().slice(2);
+    const mins = addZero(date.getMinutes());
+    const month = addZero(date.getMonth() + 1);
+    const period = date.getHours() > 12 ? "pm" : "am";
+    const year = date.getFullYear().toString().slice(2);
     
     return `${month}/${day}/${year} at ${hours}:${mins}${period}`;
 }
-function addZero(num) {
-    if (num < 10)
-        num = `0${num}`;
-    return num;
-}
+/**
+ * Adds a leading 0 to a number if it is only on one digit.
+ * @param {number} num - The number to add the leading 0 to.
+ * @return {String}
+ */
+const addZero = num => (num < 10) ? `0${num}` : num.toString();
+
 export default formatDate;
