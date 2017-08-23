@@ -1,13 +1,13 @@
 import React from 'react';
 import {Button, ListGroup, ListGroupItem, Glyphicon } from 'react-bootstrap';
-
+import { Link } from 'react-router-dom';
 import NewGameContainer from '../containers/NewGameContainer';
-import MenuItemContainer from '../containers/MenuItemContainer';
-import '../css/GameMenu.css';
+import MenuItem from './MenuItem';
+
 const Menu = props => {
 
-    const panels = props.games.map((game, index) => (
-        <MenuItemContainer 
+    const menuItems = props.games.map((game, index) => (
+        <MenuItem
             deleteGame={props.deleteGame}
             info={game} 
             index={index} 
@@ -17,12 +17,14 @@ const Menu = props => {
     ));
     return (
         <div style={{minHeight: "150px"}} id="savedGames">
-            <div >
-                <Button 
-                    bsStyle="info" 
-                    bsSize="large" 
-                    style={{margin:"2px"}}
-                >How to Play</Button>
+            <div style={{height: "50px"}}>
+                <Link to="/howtoplay" style={{color: "white", textDecoration: "none"}}>
+                    <Button 
+                        bsStyle="info" 
+                        bsSize="large" 
+                        style={{margin:"2px"}}
+                    >How to Play</Button>
+                </Link>
                 <Button 
                     bsStyle="success" 
                     bsSize="large" 
@@ -39,7 +41,7 @@ const Menu = props => {
                         <h2 className='text-center'>You have no saved games</h2>
                     </ListGroupItem>
                 }
-                { panels }
+                { menuItems }
             </ListGroup>
             <NewGameContainer shown={props.modalIsShown} close={props.closeModal}/>
         </div>
