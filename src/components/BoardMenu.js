@@ -23,7 +23,9 @@ const BoardMenu = props => {
     
     return (
         <div style={main_styles}>
-            <Button bsStyle="info" style={btn_syles}>How to Play</Button>
+            <Link to="/howtoplay" style={link_styles}>
+                <Button bsStyle="info" style={btn_syles}>How to Play</Button>
+            </Link>
             {saveGlyph}
             <Link to="/menu" style={link_styles}>
                 <Button bsStyle="danger" className="pull-right" style={btn_syles}>

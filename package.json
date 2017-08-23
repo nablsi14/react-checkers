@@ -1,9 +1,9 @@
 {
   "name": "react-checker",
+  "version": "1.0.2",
   "author": "Nathaniel Sigafoos",
   "readme": "./README.md",
   "repository": "https://github.com/nablsi14/react-checkers",
-  "version": "1.0.1",
   "private": true,
   "dependencies": {
     "lockr": "^0.8.4",
@@ -17,7 +17,6 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
     "publish": "cd build & ren index.html 200.html & surge ."
   }
 }

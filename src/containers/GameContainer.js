@@ -1,5 +1,3 @@
-//https://facebook.github.io/react/docs/thinking-in-react.html
-//https://reacttraining.com/react-router/web/guides/quick-start
 import React from 'react';
 import Lockr from 'lockr';
 import { Redirect } from 'react-router-dom'
@@ -8,15 +6,12 @@ import Board from '../components/board/Board';
 import BoardMenu from '../components/BoardMenu';
 import ScoreBar from '../components/ScoreBar';
 
-// import Current from '../util/CurrentGame';
 import MoveTree from '../util/MoveTree';
-import "../css/Game.css";
 
 export default class GameContainer extends React.Component {
     constructor () {
         super();
         if (window.gameToLoad === null) return;
-
         const {board, turn, p1, p2} = window.gameToLoad;
         this.state = {
             board: new MoveTree(board, turn),
@@ -26,10 +21,10 @@ export default class GameContainer extends React.Component {
             p2: p2,
             savedGames: [],
             selected: Object.create(null),
+            tempNames: {
+                p1: null, p2: null
+            },
         };
-    }
-    checkPlayerName (name) {
-        return (!(/<|>/g.test(name) || name.trim() === ""));
     }
     componentDidMount () {
         const game = window.gameToLoad;
@@ -56,7 +51,9 @@ export default class GameContainer extends React.Component {
         return {
             p1: this.state.p1,
             p2: this.state.p2,
+            onBlur: this.handleNameBlur.bind(this),
             onChange: this.handleNameChange.bind(this),
+            onFocus: this.handleNameFocus.bind(this),
             turn: this.state.board.current_player,
         };
     }
@@ -66,6 +63,34 @@ export default class GameContainer extends React.Component {
         if (event.key === "Enter") {
             this.makeMove();
         }
+    }
+    handleNameChange (e) {
+        const validName = name => !(/<|>/g).test(name);
+        
+        const newName = e.target.value;
+        if (!validName(newName)) return;
+        const player = this.state[e.target.name];
+        player.name = newName;
+        this.setState({
+            [e.target.name]: player
+        }, this.saveGame);
+    }
+    handleNameBlur (e) {
+        if (e.target.value.trim().length === 0) {
+            console.log(e.target.name);
+            const player = this.state[e.target.name];
+            player.name = this.state.tempNames[e.target.name];
+            console.log(player);
+            this.setState({
+                [e.target.name]: player 
+            }, this.saveGame);
+        }  
+    }
+    handleNameFocus (e) {
+        const playerName = e.target.name;
+        const tempNames = this.state.tempNames;
+        tempNames[playerName] = this.state[playerName].name;
+        this.setState({ tempNames });
     }
     handleSquareClick ([row, col]) {
         if (this.state.locked) return;
@@ -118,27 +143,6 @@ export default class GameContainer extends React.Component {
         }
         this.setState({selected: Object.create(null)});
     }
-    handleNameChange (playerNum, event) {
-        if (playerNum !== 1 && playerNum !== 2)
-            throw new Error("Invalid player number: " + playerNum);
-
-        const validName = name => (!(/<|>/g.test(name) || name.trim() === ""));
-
-        const name = event.target.value;
-
-        if (!validName(name)) return;
-
-        if (playerNum === 1) {
-            const {p1} = this.state;
-            p1.name = name;
-            this.setState({p1}, this.saveGame);
-        } else if (playerNum === 2) {
-            const {p2} = this.state;
-            p2.name = name;
-            this.setState({p2}, this.saveGame);
-        }
-        
-    }
     render () {
         return (
             <div>
@@ -181,6 +185,7 @@ export default class GameContainer extends React.Component {
             };
             Lockr.prefix = "react_checkers";
             Lockr.set("saved_games", [gameInfo, ...savedGames]);
+            this.setState({isSaved: true});
         }
         console.log("game saved");
     }

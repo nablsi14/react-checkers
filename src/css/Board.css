@@ -6,7 +6,6 @@
     border-width: 20px;
     transition: border-color 1s;
     -webkit-transition: border-color 1s;
-    /* color: dimgrey */
 }
 #board .square:nth-child(odd) {
     background-color: #FFF;
@@ -48,7 +47,7 @@
     left: 10px;
     position: relative;
     top: 20px;
-    width: 60px;
+    width: 60px; /*do not remove, does effect styling*/
 }
 .piece.selected {
     background-color: #FF5;
