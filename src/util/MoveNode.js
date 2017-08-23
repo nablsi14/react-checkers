@@ -252,7 +252,7 @@ function getJumpsFrom ([row, col], board, dirs) {
         let board_copy = MoveNode.clone(board);
         
         //make a move on the board copy 
-        board_copy[end_row][end_col] = player;
+        board_copy[end_row][end_col] = board[row][col];
         board_copy[jumped_row][jumped_col] = 0;
         board_copy[row][col] = 0;
 
