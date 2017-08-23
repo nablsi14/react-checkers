@@ -1,7 +1,7 @@
 # react-checkers
 The classic game of Checkers built in [React](https://github.com/facebook/react).
 
-# Contents
+## Contents
 * [Play](#play)
 * [About](#about)
 * [Features](#features)
@@ -21,3 +21,5 @@ The purpose of creating this project was to learn the [React](https://github.com
 
 # Upcoming Features
 * The Ability to make a player controled by an AI
+* Instructions on how to play/control the UI
+
