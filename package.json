@@ -17,6 +17,6 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "publish": "cd build & ren index.html 200.html & surge ."
+    "deploy": "ren .\\build\\index.html 200.html & surge .\\build"
   }
 }
