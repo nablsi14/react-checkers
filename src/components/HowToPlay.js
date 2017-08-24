@@ -1,10 +1,12 @@
 import React from 'react';
 import { Button, Glyphicon } from 'react-bootstrap';
-// import { browserHistory } from 'react-router';
+import QueryString from 'query-string';
 
 export default class HowToPlay extends React.Component {
     back () {
-        if (window.gameToLoad !== null)
+        const querys = QueryString.parse(this.props.location.search);
+        
+        if (querys.from === "play")
             this.props.history.push("/play");
         else
             this.props.history.push('/menu');

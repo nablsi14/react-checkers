@@ -16,7 +16,7 @@ export default class MenuContainer extends React.Component {
     closeModal () {
         this.setState({showModal: false});
     }
-    componentWillMount () {
+    componentDidMount () {
         Lockr.prefix = "react_checkers";
         if (!window.localStorageSupport)
             console.warn('This browser does not support localstroage. Unable to save games.');
@@ -31,12 +31,6 @@ export default class MenuContainer extends React.Component {
         Lockr.set("saved_games", saved);
         this.setState({saved});
     }
-    loadGame (index) {
-        const {saved} = this.state;
-        const [game] = saved.splice(index, 1);
-        window.gameToLoad = game;
-        Lockr.set("saved_games", saved);
-    }
     openModal () {
         this.setState({showModal: true});
     }
@@ -46,7 +40,6 @@ export default class MenuContainer extends React.Component {
                 closeModal={this.closeModal.bind(this)}
                 deleteGame={this.deleteGame.bind(this)}
                 games={this.state.saved}
-                loadGame={this.loadGame.bind(this)}
                 modalIsShown={this.state.showModal}
                 openModal={this.openModal.bind(this)}
             />

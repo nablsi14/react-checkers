@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Lockr from 'lockr';
 import NewGameModal from '../components/NewGameModal';
 
 export default class NewGameContainer extends React.Component {
@@ -33,7 +33,9 @@ export default class NewGameContainer extends React.Component {
                 p2: {name: this.state.p2Name, is_ai: this.state.p2AI, score: 0},
                 turn: 1
             };
-            window.gameToLoad = info;
+            Lockr.prefix = "react_checkers";
+            const saved = Lockr.get("saved_games") || [];
+            Lockr.set("saved_games", [info, ...saved]);
             this.props.close();
         } else {
             console.log("invalid name(s)");
@@ -42,7 +44,6 @@ export default class NewGameContainer extends React.Component {
 
     }
     checkPlayerName (player) { 
-        
         const name = this.state[player];
         if (!(/<|>/g.test(name) || name.trim() === ""))
             return "success";

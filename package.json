@@ -1,12 +1,13 @@
 {
   "name": "react-checker",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": "Nathaniel Sigafoos",
   "readme": "./README.md",
   "repository": "https://github.com/nablsi14/react-checkers",
   "private": true,
   "dependencies": {
     "lockr": "^0.8.4",
+    "query-string": "^5.0.0",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.0",
     "react-dom": "^15.6.1",

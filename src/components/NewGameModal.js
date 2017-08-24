@@ -74,7 +74,7 @@ const NewGameModal = props => {
             </Modal.Body>
             <Modal.Footer>
                 <Button bsStyle="success" bsSize="large">
-                    <Link to="/play" 
+                    <Link to={{pathname:"/play", search: "?index=0&newGame=true"}}
                         style={link_styles} 
                         onClick={props.submit}
                     >Play Game!</Link>

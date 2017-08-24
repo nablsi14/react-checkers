@@ -1,6 +1,6 @@
 import React from 'react';
 import Lockr from 'lockr';
-import { Redirect } from 'react-router-dom'
+import QueryString from 'query-string';
 
 import Board from '../components/board/Board';
 import BoardMenu from '../components/BoardMenu';
@@ -9,34 +9,42 @@ import ScoreBar from '../components/ScoreBar';
 import MoveTree from '../util/MoveTree';
 
 export default class GameContainer extends React.Component {
-    constructor () {
-        super();
-        if (window.gameToLoad === null) return;
-        const {board, turn, p1, p2} = window.gameToLoad;
+    constructor (props) {
+        super(props);
+        this.querys = QueryString.parse(this.props.location.search);
+
         this.state = {
-            board: new MoveTree(board, turn),
-            locked: false,
-            isSaved: true,
-            p1: p1,
-            p2: p2,
-            savedGames: [],
             selected: Object.create(null),
             tempNames: {
                 p1: null, p2: null
             },
         };
     }
-    componentDidMount () {
-        const game = window.gameToLoad;
-        if (game !== null) {
-            const savedGames = Lockr.get("saved_games") || [];
-            if (!game.isNewGame)
-                Lockr.set("saved_games", [window.gameToLoad, ...savedGames]);
-            this.setState({
-                isSaved: !game.isNewGame,
-                savedGames
-            });
+    componentWillMount () {
+        Lockr.prefix = "react_checkers";
+        const saved = Lockr.get("saved_games") || [];
+        const index = this.querys.index;
+
+        if (isNaN(index) || index < 0 || index >= saved.length) {
+            console.warn("Invalid index: ", index);
+            this.props.history.push("/menu");
+            return;
         }
+        
+        const game = saved.splice(index, 1)[0];
+        const {board, turn, ...rest} = game;
+        this.setState({
+            board: new MoveTree(board, turn),
+            ...rest,
+        });
+        if (this.querys.newGame === "true") {
+            
+            Lockr.set("saved_games", saved);
+        }
+        else
+            Lockr.set("saved_games", [game, ...saved]);
+            
+        this.setState({ isSaved: this.querys.newGame !== "true"});
     }
     getScore (player) {
         let score = 12;
@@ -144,12 +152,8 @@ export default class GameContainer extends React.Component {
         this.setState({selected: Object.create(null)});
     }
     render () {
-        return (
-            <div>
-                {window.gameToLoad === null &&
-                    <Redirect to="/menu" />
-                }
-                {window.gameToLoad !== null &&
+        if (this.state.board !== undefined)
+            return (
                 <div>
                     <BoardMenu
                         saved={this.state.isSaved}
@@ -164,29 +168,34 @@ export default class GameContainer extends React.Component {
                         turn={this.state.board.current_player}
                     />
                 </div>
-                }
-            </div>
-        );
+            );
+        return null;
     }
     saveGame () {
         if (!window.localStorageSupport) {
             console.warn('This browser does not support localstroage. Unable to save games.');
             this.setState({isSaved: false});
-        }
-        else {
-            const {board, p1, p2, savedGames} = this.state;
-            const {created} = window.gameToLoad;
+        } else {
+            const {board, created, p1, p2} = this.state;
             const gameInfo = {
                 board: board.current_board,
                 created,
-                last: new Date(),
+                last: (new Date()).toDateString(),
                 p1, p2,
                 turn: board.current_player,
             };
             Lockr.prefix = "react_checkers";
-            Lockr.set("saved_games", [gameInfo, ...savedGames]);
+            const saved = Lockr.get("saved_games");
+            if (this.querys.newGame === "true") {
+                Lockr.set("saved_games", [gameInfo, ...saved]);
+                this.querys.newGame = false;
+            } else {
+                saved[0] = gameInfo;
+                Lockr.set("saved_games", saved);
+            }
+                
             this.setState({isSaved: true});
+            console.log("game saved");
         }
-        console.log("game saved");
     }
 }

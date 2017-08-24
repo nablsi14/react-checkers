@@ -11,12 +11,6 @@ export default class MenuItem extends React.Component {
             showButtons: false
         };
     }
-    hideButtons () {
-        this.setState({showButtons: false})
-    }
-    showButtons () {
-        this.setState({showButtons: true});
-    }
     render () {
         const {info} = this.props;
         const link_styles = {
@@ -28,8 +22,8 @@ export default class MenuItem extends React.Component {
         };
         return (
             <ListGroupItem
-                onMouseEnter={this.showButtons.bind(this)}
-                onMouseLeave={this.hideButtons.bind(this)}
+                onMouseEnter={() => this.setState({showButtons: true})}
+                onMouseLeave={() => this.setState({showButtons: false})}
                 style={{display:"inline-block", width: "100%", marginBottom: "-4px"}}
             >
                 <Col xs={8}>
@@ -53,10 +47,9 @@ export default class MenuItem extends React.Component {
                 </Col>
                 {this.state.showButtons &&
                     <Col xs={4}>
-                        <Link to="/play" style={link_styles}>
+                        <Link to={{pathname:"/play", search:`?index=${this.props.index}`}} style={link_styles}>
                             <Button block
                                 bsStyle="success"
-                                onClick={() => this.props.loadGame(this.props.index)}
                             >Resume Game {' '}
                                 <Glyphicon glyph="share-alt"></Glyphicon>
                             </Button>

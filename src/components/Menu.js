@@ -11,8 +11,7 @@ const Menu = props => {
             deleteGame={props.deleteGame}
             info={game} 
             index={index} 
-            key={"game"+index} 
-            loadGame={props.loadGame}
+            key={"game"+index}
         />
     ));
     return (
