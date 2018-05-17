@@ -1,5 +1,9 @@
+
+# Production
 /build
-src/util/*.js
+
+# Testing
+/coverage
 
 # Created by https://www.gitignore.io/api/node,sass,windows,visualstudiocode
 

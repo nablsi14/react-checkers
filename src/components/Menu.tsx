@@ -1,10 +1,22 @@
 import React from 'react';
-import {Button, ListGroup, ListGroupItem, Glyphicon } from 'react-bootstrap';
+import * as FontAwesome from "react-icons/lib/fa";
 import { Link } from 'react-router-dom';
+import { Alert, Button, ListGroup, ListGroupItem } from 'reactstrap';
+import { IGameInfo } from '../containers/GameContainer';
 import NewGameContainer from '../containers/NewGameContainer';
 import MenuItem from './MenuItem';
 
-const Menu = props => {
+interface IMenuProps {
+    closeModal: () => void;
+    deleteGame: (index: number) => void;
+    dismissAlert: () => void;
+    games: IGameInfo[];
+    modalIsShown: boolean;
+    openModal: () => void;
+    showAlert: boolean;
+}
+
+const Menu = (props: IMenuProps) => {
 
     const menuItems = props.games.map((game, index) => (
         <MenuItem
@@ -15,23 +27,21 @@ const Menu = props => {
         />
     ));
     return (
-        <div style={{minHeight: "150px"}} id="savedGames">
-            <div style={{height: "50px"}}>
+        <div style={{minHeight: "150px", padding: "10px"}} id="savedGames">
+            <div style={{height: "50px", marginBottom: "5px"}}>
                 <Link to="/howtoplay" style={{color: "white", textDecoration: "none"}}>
                     <Button 
-                        bsStyle="info" 
-                        bsSize="large" 
+                        color="info" 
+                        size="lg" 
                         style={{margin:"2px"}}
                     >How to Play</Button>
                 </Link>
                 <Button 
-                    bsStyle="success" 
-                    bsSize="large" 
-                    className="pull-right" 
+                    color="success" 
+                    size="lg" 
                     onClick={props.openModal}
-                    style={{margin:"2px"}}
-                >
-                    New Game <Glyphicon glyph="plus"></Glyphicon>
+                    style={{margin:"2px"}}>
+                    New Game <FontAwesome.FaPlus />
                 </Button>
             </div>
             <ListGroup style={{clear: "left", display: "block", height: "100%"}}>
@@ -42,6 +52,9 @@ const Menu = props => {
                 }
                 { menuItems }
             </ListGroup>
+            <Alert color="warning" isOpen={ props.showAlert } toggle={ props.dismissAlert }>
+                Sorry, this browser does not support local storage. Please try using a different browser.
+            </Alert>
             <NewGameContainer shown={props.modalIsShown} close={props.closeModal}/>
         </div>
     );

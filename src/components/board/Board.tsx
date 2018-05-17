@@ -3,11 +3,19 @@ import Square from './Square';
 
 import "../../css/Board.css";
 
-const Board = props => {
+export interface IBoardProps {
+    turn: number;
+    selected: {[key: string]: boolean};
+    squares: number[][];
+    onSquareClick: ([row, col]: [number, number]) => void;
+    onKeyPress: () => void;
+};
+
+const Board = (props: IBoardProps) => {
     const style = {
         borderColor: props.turn === 1 ? "#444" : "red"
     }
-    const squares = [];
+    const squares: JSX.Element[] = [];
     props.squares.forEach((arr, row) => {
         arr.forEach((square, col) => {
             const isSelected = props.selected[`${row},${col}`] === true;
@@ -20,11 +28,11 @@ const Board = props => {
                 /> 
             );
         });
-        squares.push(<div className="hidden" key={`hidden${row}`}></div>);
+        squares.push(<div className="hidden" key={`hidden${row}`}/>);
     });
     
     return (
-        <div id="board" style={style} tabIndex="0" onKeyPress={props.onKeyPress}>
+        <div id="board" style={style} tabIndex={0} onKeyPress={props.onKeyPress}>
             {squares}
         </div>
     );

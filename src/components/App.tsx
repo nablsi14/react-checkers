@@ -1,36 +1,41 @@
 import React from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
-
-import Footer from './Footer';
+import { Container } from 'reactstrap';
 import GameContainer from '../containers/GameContainer';
-import HowToPlay from './HowToPlay';
 import MenuContainer from '../containers/MenuContainer';
+import Footer from './Footer';
+import HowToPlay from './HowToPlay';
 
 const App = () => {
-    const styles = {
+
+    const styles: { 
+        minWidth: string; padding: string; position: "relative";
+    } = {
         minWidth: "800px",
         padding: "0 0 100px", 
         position: "relative"
     };
-    const title_styles = {
+    const titleStyles: {
+        fontFamily: string; fontSize: string; textAlign: "center";
+    } = {
         fontFamily: "Roboto, sans-serif",
         fontSize: "50px",
         textAlign: "center"
     };
     return (
         <BrowserRouter>
-            <div className="container" style={styles}>
+            <Container style={ styles }>
                 <div className="well">
-                    <div style={title_styles}>Checkers</div>
+                    <div style={ titleStyles }>Checkers</div>
                     <Switch>
-                        <Route path="/menu" exact component={MenuContainer} />
-                        <Route path="/play" component={GameContainer} />
-                        <Route path="/howtoplay" component={HowToPlay} />
+                        <Route path="/menu" exact={ true } component={ MenuContainer } />
+                        <Route path="/play" component={ GameContainer } />
+                        <Route path="/howtoplay" component={ HowToPlay } />
                         <Redirect to="/menu" />
                     </Switch>
                 </div>
                 <Footer />
-            </div>
+            </Container>
         </BrowserRouter>
     );
 }

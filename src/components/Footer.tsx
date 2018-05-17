@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 
-const Footer = props => {
-    const styles = {
-        bottom: "0",
+const Footer = (props: any) => {
+    const styles: CSSProperties = {
+        bottom: 0,
         height: "100px",
-        left: "0",
+        left: 0,
         position: "absolute",
         width: "100%"
     }
