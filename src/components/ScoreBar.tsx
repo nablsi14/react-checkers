@@ -1,13 +1,23 @@
 import React from 'react';
+import { IPlayerInfo } from "../containers/GameContainer";
 import "../css/ScoreBar.css";
+import { Player } from "../util/MoveTree";
 
-const ScoreBar = props => {
+export interface IScoreBarProps {
+    onBlur: (e: any) => void;
+    onChange: (e: any) => void;
+    onFocus: (e: any) => void;
+    turn: Player;
+    p1: IPlayerInfo;
+    p2: IPlayerInfo;
+}
 
+const ScoreBar = (props: IScoreBarProps) => {
         return (
             <div id="score">
                 <div>
                     <input
-                        maxLength="20"
+                        maxLength={20}
                         name="p1"
                         onBlur={props.onBlur}
                         onChange={props.onChange}
@@ -21,9 +31,9 @@ const ScoreBar = props => {
                         type="text"
                     />: <span className="score">{props.p1.score}</span>
                 </div>
-                <div className="pull-right">
+                <div className="float-right">
                         <input 
-                            maxLength="20"
+                            maxLength={20}
                             name="p2"
                             onBlur={props.onBlur}
                             onChange={props.onChange}
