@@ -5,6 +5,7 @@
   "readme": "./README.md",
   "repository": "https://github.com/nablsi14/react-checkers",
   "private": true,
+  "license": "MIT",
   "dependencies": {
     "bootstrap": "^4.1.1",
     "jquery": "^3.3.1",
