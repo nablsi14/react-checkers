@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import Square from './Square';
 
 import "../../css/Board.css";
@@ -12,7 +12,7 @@ export interface IBoardProps {
 };
 
 const Board = (props: IBoardProps) => {
-    const style = {
+    const style: CSSProperties = {
         borderColor: props.turn === 1 ? "#444" : "red"
     }
     const squares: JSX.Element[] = [];
@@ -32,8 +32,8 @@ const Board = (props: IBoardProps) => {
     });
     
     return (
-        <div id="board" style={style} tabIndex={0} onKeyPress={props.onKeyPress}>
-            {squares}
+        <div id="board" style={ style } tabIndex={ 0 } onKeyPress={ props.onKeyPress }>
+            { squares }
         </div>
     );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import * as FontAwesome from "react-icons/lib/fa";
 import { Link } from 'react-router-dom';
 import { Button, Col, ListGroupItem, Row } from 'reactstrap';
@@ -17,6 +17,14 @@ interface IMenuItemState {
 };
 
 export default class MenuItem extends React.Component<IMenuItemProps, IMenuItemState> {
+    private linkStyles: CSSProperties = {
+        color: "white", 
+        display: "block", 
+        height: "100%",
+        margin: "4px 0px",
+        textDecoration: "none"
+    };
+
     constructor (props: IMenuItemProps) {
         super(props);
         this.state = {
@@ -24,14 +32,7 @@ export default class MenuItem extends React.Component<IMenuItemProps, IMenuItemS
         };
     }
     public render () {
-        const {info} = this.props;
-        const linkStyles = {
-            color: "white", 
-            display: "block", 
-            height: "100%",
-            margin: "4px 0px",
-            textDecoration: "none"
-        };
+        const { info } = this.props;
         const deleteGame = () => this.props.deleteGame(this.props.index);
         const mouseEnter = () => this.setState({showButtons: true});
         const mouseLeave = () => this.setState({showButtons: false})
@@ -62,7 +63,7 @@ export default class MenuItem extends React.Component<IMenuItemProps, IMenuItemS
                     </Col>
                     <Col xs={4}>
                         {this.state.showButtons && <div>
-                            <Link to={ {pathname:"/play", search:`?index=${this.props.index}`} } style={ linkStyles} >
+                            <Link to={ {pathname:"/play", search:`?index=${this.props.index}`} } style={ this.linkStyles} >
                                 <Button block={ true }
                                     color="success" >
                                     Resume Game {' '}

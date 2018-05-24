@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
 import { 
     Button, 
@@ -10,7 +10,6 @@ import {
     Row, 
     Tooltip 
 } from 'reactstrap';
-
 
 import "../css/NewGame.css";
 
@@ -30,6 +29,12 @@ export default class NewGameModal extends Component<INGMProps, {
     p1AiOpen: boolean;
     p2AiOpen: boolean;
 }> {
+    private linkStyles: CSSProperties = {
+        color: "white", 
+        display: "block", 
+        height: "100%", 
+        textDecoration: "none"
+    };
     constructor (props: INGMProps) {
         super(props);
         this.state = {
@@ -44,12 +49,6 @@ export default class NewGameModal extends Component<INGMProps, {
         const formControlProps = {
             maxLength: 20,
             onChange: this.props.onChange,
-        };
-        const linkStyles = {
-            color: "white", 
-            display: "block", 
-            height: "100%", 
-            textDecoration: "none"
         };
         const validP1Name = this.props.validName("p1Name");
         const validP2Name = this.props.validName("p2Name");
@@ -131,7 +130,7 @@ export default class NewGameModal extends Component<INGMProps, {
                 <ModalFooter>
                     <Button color="success" size="lg">
                         <Link to={ {pathname:"/play", search: "?index=0&newGame=true"} }
-                            style={ linkStyles } 
+                            style={ this.linkStyles } 
                             onClick={ this.props.submit }
                         >Play Game!</Link>
                     </Button>
