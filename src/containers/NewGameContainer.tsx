@@ -1,5 +1,5 @@
 import Lockr from 'lockr';
-import React from 'react';
+import React, { Component } from 'react';
 import NewGameModal from '../components/NewGameModal';
 import { IGameInfo } from './GameContainer';
 
@@ -15,7 +15,8 @@ interface INGCState {
     [key: string]: string | boolean;
 }
 
-export default class NewGameContainer extends React.Component<INGCProps, INGCState> {
+export default class NewGameContainer 
+        extends Component<INGCProps, INGCState> {
 
     constructor (props: INGCProps) {
         super(props);

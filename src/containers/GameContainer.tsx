@@ -1,6 +1,6 @@
 import Lockr from 'lockr';
 import QueryString from 'query-string';
-import React from 'react';
+import React, { Component } from 'react';
 import Board from '../components/board/Board';
 import BoardMenu from '../components/BoardMenu';
 import ScoreBar, { IScoreBarProps } from '../components/ScoreBar';
@@ -45,7 +45,7 @@ interface IGameContainerState {
     [key: string]: any
 }
 export default class GameContainer 
-        extends React.Component<IGameContainerProps, IGameContainerState> {
+        extends Component<IGameContainerProps, IGameContainerState> {
     public querys: any;
     constructor (props: IGameContainerProps) {
         super(props);

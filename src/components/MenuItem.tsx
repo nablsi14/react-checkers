@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React, { Component, CSSProperties } from 'react';
 import * as FontAwesome from "react-icons/lib/fa";
 import { Link } from 'react-router-dom';
 import { Button, Col, ListGroupItem, Row } from 'reactstrap';
@@ -16,7 +16,8 @@ interface IMenuItemState {
     showButtons: boolean;
 };
 
-export default class MenuItem extends React.Component<IMenuItemProps, IMenuItemState> {
+export default class MenuItem 
+        extends Component<IMenuItemProps, IMenuItemState> {
     private linkStyles: CSSProperties = {
         color: "white", 
         display: "block", 

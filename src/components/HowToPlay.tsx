@@ -1,5 +1,5 @@
 import QueryString from 'query-string';
-import React from 'react';
+import React, { Component } from 'react';
 import * as FontAwesome from "react-icons/lib/fa";
 import { Button } from 'reactstrap';
 
@@ -8,7 +8,8 @@ interface IHTPProps {
     history: string[]
 }
 
-export default class HowToPlay extends React.Component<IHTPProps, {}> {
+export default class HowToPlay 
+        extends Component<IHTPProps, {}> {
     public back () {
         const querys = QueryString.parse(this.props.location.search);
         

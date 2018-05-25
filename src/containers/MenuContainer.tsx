@@ -1,5 +1,5 @@
 import Lockr from "lockr";
-import React from 'react';
+import React, { Component } from 'react';
 import Menu from '../components/Menu';
 import { IGameInfo } from './GameContainer';
 
@@ -13,7 +13,8 @@ interface IMenuContainerState {
     showModal: boolean;
 }
 
-export default class MenuContainer extends React.Component<{}, IMenuContainerState> {
+export default class MenuContainer 
+        extends Component<{}, IMenuContainerState> {
 
     constructor (props: {}) {
         super(props);

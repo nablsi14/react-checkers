@@ -1,5 +1,5 @@
 
-import React, { CSSProperties } from 'react';
+import React, { Component, CSSProperties } from 'react';
 import * as FontAwesome from "react-icons/lib/fa";
 import { Link } from 'react-router-dom';
 import { Button, Tooltip, } from 'reactstrap';
@@ -8,7 +8,8 @@ interface IBoardMenuProps {
     onMakeMoveClick: () => void;
     saved: boolean;
 }
-export default class BoardMenu extends React.Component<IBoardMenuProps, { showTooltip: boolean }> {
+export default class BoardMenu 
+        extends Component<IBoardMenuProps, { showTooltip: boolean }> {
     private mainStyles: CSSProperties = {
         display: "table",
         height: "35px",
