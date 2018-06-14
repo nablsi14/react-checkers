@@ -1,7 +1,7 @@
 import Lockr from "lockr";
 import React, { Component } from 'react';
 import Menu from '../components/Menu';
-import { IGameInfo } from './GameContainer';
+import { IGameInfo } from '../sharedTypes';
 
 
 // declare const localStorageSupport: boolean;

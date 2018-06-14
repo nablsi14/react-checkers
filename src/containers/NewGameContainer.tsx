@@ -1,7 +1,7 @@
 import Lockr from 'lockr';
 import React, { Component } from 'react';
 import NewGameModal from '../components/NewGameModal';
-import { IGameInfo } from './GameContainer';
+import { IGameInfo } from '../sharedTypes';
 
 interface INGCProps {
     shown: boolean;

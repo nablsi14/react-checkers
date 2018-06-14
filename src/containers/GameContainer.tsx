@@ -4,25 +4,9 @@ import React, { Component } from 'react';
 import Board from '../components/board/Board';
 import BoardMenu from '../components/BoardMenu';
 import ScoreBar, { IScoreBarProps } from '../components/ScoreBar';
-import MoveTree, { Player, Position } from '../util/MoveTree';
+import { IGameInfo, IPlayerInfo, Position } from "../sharedTypes";
+import MoveTree, { Player } from '../util/MoveTree';
 
-
-
-
-export interface IPlayerInfo {
-    name: string;
-    score: number;
-    is_ai: boolean;
-}
-export interface IGameInfo {
-    board: number[][] | null;
-    created: Date;
-    last: Date;
-    isNewGame: boolean;
-    p1: IPlayerInfo;
-    p2: IPlayerInfo;
-    turn: number;
-}
 interface IGameContainerProps {
     location: any;
     history: string[];

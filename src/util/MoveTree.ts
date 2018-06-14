@@ -1,3 +1,4 @@
+import { NodeName, Position } from "../sharedTypes";
 import MoveNode from "./MoveNode";
 
 
@@ -25,8 +26,7 @@ const startingBoard  = [
 //     [ 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 ]//7,
 // ];
 
-export type Position = [number, number];
-export type NodeName = Position[];
+
 
 export enum Player {
     EMPTY, // 0

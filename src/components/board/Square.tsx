@@ -3,7 +3,7 @@ import Piece from './Piece';
 
 import "../../css/Board.css";
 
-export interface ISquareProps {
+interface ISquareProps {
     player: number;
     selected: boolean;
     position: [number, number];

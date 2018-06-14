@@ -3,7 +3,7 @@ import * as FontAwesome from "react-icons/lib/fa";
 import { Link } from 'react-router-dom';
 import { Button, Col, ListGroupItem, Row } from 'reactstrap';
 
-import { IGameInfo } from '../containers/GameContainer';
+import { IGameInfo } from '../sharedTypes';
 import formatDate from '../util/formatDate';
 
 interface IMenuItemProps {

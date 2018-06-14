@@ -1,6 +1,6 @@
 import React from 'react';
-import { IPlayerInfo } from "../containers/GameContainer";
 import "../css/ScoreBar.css";
+import { IPlayerInfo } from "../sharedTypes";
 import { Player } from "../util/MoveTree";
 
 export interface IScoreBarProps {

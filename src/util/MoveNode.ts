@@ -1,8 +1,5 @@
-import MoveTree, { NodeName, Player, Position } from "./MoveTree";
-interface IMoveVector {
-    readonly x: -1 | 1;
-    readonly y: -1 | 1;
-}
+import { IDirections, IMoveVector, NodeName, Position } from "../sharedTypes";
+import MoveTree, { Player } from "./MoveTree";
 
 export default class MoveNode {
     /**
@@ -186,11 +183,7 @@ export default class MoveNode {
      * @return {IMoveVector[]} All the directions a given piece can move on the current board.
      */
     private validMoveDirections ([row, col]: Position): IMoveVector[] {
-        interface IDirections {
-            1: IMoveVector[],
-            2: IMoveVector[],
-            [key: number]: IMoveVector[]
-        };
+        
         /**
          * All the directions a piece can be moved
          * A kinged piece can move in all the directions listed

@@ -3,7 +3,7 @@ import Square from './Square';
 
 import "../../css/Board.css";
 
-export interface IBoardProps {
+interface IBoardProps {
     turn: number;
     selected: {[key: string]: boolean};
     squares: number[][];

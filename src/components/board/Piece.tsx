@@ -3,7 +3,7 @@ import React from 'react';
 import crown from "../../images/crown.png";
 
 import "../../css/Board.css";
-export interface IPieceProps {
+interface IPieceProps {
     player: number;
     selected: boolean;
 }
