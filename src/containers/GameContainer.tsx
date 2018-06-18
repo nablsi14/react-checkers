@@ -13,11 +13,11 @@ interface IGameContainerProps {
 }
 interface IGameContainerState {
     board: MoveTree;
-    created?: Date;
-    last?: Date;
-    isSaved?: boolean;
-    p1?: IPlayerInfo;
-    p2?: IPlayerInfo;
+    created: Date;
+    last: Date;
+    isSaved: boolean;
+    p2: IPlayerInfo;
+    p1: IPlayerInfo;
     selected: {
         [key: string]: boolean;
     };
@@ -30,14 +30,33 @@ interface IGameContainerState {
 }
 export default class GameContainer 
         extends Component<IGameContainerProps, IGameContainerState> {
-    public querys: any;
+
     constructor (props: IGameContainerProps) {
         super(props);
-        this.querys = QueryString.parse(this.props.location.search);
+        Lockr.prefix = "react_checkers";
+        const savedGames: IGameInfo[] = Lockr.get("saved_games") || [];
 
+        const querys: any = QueryString.parse(this.props.location.search);
+
+        if (querys.newGame === "true") {
+            Lockr.set("saved_games", savedGames.slice(1));
+        }
+
+        let index: number = querys.index;
+
+        if (isNaN(index) || index < 0 || index >= savedGames.length) {
+            index = 0;
+        }
+        const game: IGameInfo = savedGames[index];
+        
         this.state = {
-            board: new MoveTree([[]], undefined, 0), 
-            selected: Object.create(null),
+            board: new MoveTree(game.board, game.turn),
+            created: game.created,
+            isSaved: !querys.newGame,
+            last: game.last,
+            p1: game.p1,
+            p2: game.p2,
+            selected: {},
             tempNames: {
                 p1: null, p2: null
             }
@@ -45,33 +64,7 @@ export default class GameContainer
         this.makeMove = this.makeMove.bind(this);
         this.handleSquareClick = this.handleSquareClick.bind(this);
     }
-    public componentWillMount (): void {
-           
-        Lockr.prefix = "react_checkers";
-        const saved: IGameInfo[] = Lockr.get("saved_games") || [];
-        const index: number = this.querys.index;
 
-        if (isNaN(index) || index < 0 || index >= saved.length) {
-            // console.log("Invalid index: ", index);
-            this.props.history.push("/menu");
-            return;
-        }
-        
-        const game: IGameInfo = saved.splice(index, 1)[0];
-        const {board, turn, ...rest} = game;
-        this.setState({
-            board: new MoveTree(board, turn),
-            ...rest,
-        });
-        if (this.querys.newGame === "true") {
-            
-            Lockr.set("saved_games", saved);
-        }
-        else {
-            Lockr.set("saved_games", [game, ...saved]);
-        }            
-        this.setState({ isSaved: this.querys.newGame !== "true"});
-    }
     public currentPlayerIsAI (): boolean {
         const player: Player = this.state.board.current_player;
         return this.state['p' + player].is_ai;
@@ -199,30 +192,29 @@ export default class GameContainer
         this.setState({selected});
     }
     public render () {
-        if (this.state.board !== undefined) {
-            return (
-                <div>
-                    <BoardMenu
-                        saved={ (this.state.isSaved) as boolean }
-                        onMakeMoveClick={ this.makeMove }
-                    />
-                    <ScoreBar {...this.getScoreBarProps()} />
-                    <Board 
-                        onSquareClick={ this.handleSquareClick }
-                        onKeyPress={ this.makeMove }
-                        selected={ this.state.selected }
-                        squares={ this.state.board.current_board }
-                        turn={ this.state.board.current_player }
-                    />
-                </div>
-            );
-        }
-        return null;
+        
+        return (
+            <div>
+                <BoardMenu
+                    saved={ this.state.isSaved }
+                    onMakeMoveClick={ this.makeMove }
+                />
+                <ScoreBar {...this.getScoreBarProps()} />
+                <Board 
+                    onSquareClick={ this.handleSquareClick }
+                    onKeyPress={ this.makeMove }
+                    selected={ this.state.selected }
+                    squares={ this.state.board.current_board }
+                    turn={ this.state.board.current_player }
+                />
+            </div>
+        );
+
     }
     public saveGame () {
         if (typeof(Storage) === "undefined") {
             // console.warn('This browser does not support localstroage. Unable to save games.');
-            this.setState({isSaved: false});
+            this.setState({ isSaved: false });
         } else {
             const {board, created, p1, p2} = this.state;
             const gameInfo: IGameInfo = {
@@ -236,16 +228,15 @@ export default class GameContainer
             };
 
             Lockr.prefix = "react_checkers";
-            const saved: IGameInfo[] = Lockr.get("saved_games");
-            if (this.querys.newGame === "true") {
-                Lockr.set("saved_games", [gameInfo, ...saved]);
-                this.querys.newGame = false;
+            const savedGames: IGameInfo[] = Lockr.get("saved_games") || [];
+            if (!this.state.isSaved) {
+                Lockr.set("saved_games", [gameInfo, ...savedGames]);
             } else {
-                saved[0] = gameInfo;
-                Lockr.set("saved_games", saved);
+                savedGames[0] = gameInfo;
+                Lockr.set("saved_games", savedGames);
             }
                 
-            this.setState({isSaved: true});
+            this.setState({ isSaved: true });
             // console.log("game saved");
         }
     }
