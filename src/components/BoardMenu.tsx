@@ -1,8 +1,10 @@
 
-import React, { Component, CSSProperties } from 'react';
+import React, { Component} from 'react';
 import * as FontAwesome from "react-icons/lib/fa";
 import { Link } from 'react-router-dom';
 import { Button, Tooltip, } from 'reactstrap';
+
+import "../css/BoardMenu.css";
 
 interface IBoardMenuProps {
     onMakeMoveClick: () => void;
@@ -10,24 +12,6 @@ interface IBoardMenuProps {
 }
 export default class BoardMenu 
         extends Component<IBoardMenuProps, { showTooltip: boolean }> {
-    private mainStyles: CSSProperties = {
-        display: "table",
-        height: "35px",
-        margin: "auto",
-        width: "576px"
-    };
-    private btnSyles: CSSProperties = {
-        margin: "2px"
-    };
-    private linkStyles: CSSProperties = {
-        color: "white",
-        textDecoration: "none"
-    };
-    private savedStyles: CSSProperties = {
-        color: this.props.saved ? "green" : "red",
-        position: "relative",
-        top: "15px"
-    };
 
     constructor (props: IBoardMenuProps) {
         super(props);
@@ -37,27 +21,29 @@ export default class BoardMenu
         this.toogleTooltip = this.toogleTooltip.bind(this);
     }
 
-    public render () {        
+    public render () {
+        const savedColor = this.props.saved ? "green" : "red";      
         return (
-            <div style={ this.mainStyles }>
-                <Link to="/howtoplay" style={ this.linkStyles }>
-                    <Button color="info" style={ this.btnSyles } className="float-left">How to Play</Button>
+            <div id="boardMenu">
+                <Link to="/howtoplay" className="boardMenuLink">
+                    <Button color="info" className="float-left boardMenuBtn">How to Play</Button>
                 </Link>
-                <FontAwesome.FaFloppyO style={ this.savedStyles } className="float-right" id="gameIsSavedIcon"/>
+                <FontAwesome.FaFloppyO  className="float-right" id="gameIsSavedIcon" 
+                    style={ {color: savedColor} }/>
                 <Tooltip target="gameIsSavedIcon" toggle={ this.toogleTooltip } isOpen={ this.state.showTooltip }>
                     {this.props.saved && "Game Saved"}
                     {!this.props.saved && "Game NOT Saved"}
                 </Tooltip>
                 <Button 
                     color="success" 
-                    className="float-right"
+                    className="float-right boardMenuBtn"
                     onClick={ this.props.onMakeMoveClick }
-                    style={ this.btnSyles }
+                    
                 >
                     Make move
                 </Button>
-                <Link to="/menu" style={ this.linkStyles }>
-                    <Button color="danger" style={ this.btnSyles } className="float-right">
+                <Link to="/menu" className="boardMenuLink">
+                    <Button color="danger" className="float-right boardMenuBtn">
                         Quit Game
                     </Button>
                 </Link>
