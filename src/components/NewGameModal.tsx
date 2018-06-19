@@ -128,12 +128,11 @@ export default class NewGameModal extends Component<INGMProps, {
                     </Form>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="success" size="lg">
-                        <Link to={ {pathname:"/play", search: "?index=0&newGame=true"} }
-                            style={ this.linkStyles } 
-                            onClick={ this.props.submit }
-                        >Play Game!</Link>
-                    </Button>
+                    <Link to={ {pathname:"/play", search: "?index=0&newGame=true"} }
+                        style={ this.linkStyles } 
+                        onClick={ this.props.submit }>
+                        <Button color="success" size="lg">Play Game!</Button>
+                    </Link>
                     <Button 
                         color="danger" 
                         size="lg" 
