@@ -2,9 +2,9 @@ import React from 'react';
 import * as FontAwesome from "react-icons/lib/fa";
 import { Link } from 'react-router-dom';
 import { Alert, Button, ListGroup, ListGroupItem } from 'reactstrap';
-import NewGameContainer from '../containers/NewGameContainer';
 import { IGameInfo } from '../sharedTypes';
 import MenuItem from './MenuItem';
+import NewGameModal from './NewGameModal';
 
 interface IMenuProps {
     closeModal: () => void;
@@ -55,7 +55,7 @@ const Menu = (props: IMenuProps) => {
             <Alert color="warning" isOpen={ props.showAlert } toggle={ props.dismissAlert }>
                 Sorry, this browser does not support local storage. Please try using a different browser.
             </Alert>
-            <NewGameContainer shown={props.modalIsShown} close={props.closeModal}/>
+            <NewGameModal shown={props.modalIsShown} close={props.closeModal}/>
         </div>
     );
 }

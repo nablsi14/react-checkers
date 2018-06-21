@@ -1,59 +1,54 @@
+import Lockr from "lockr";
 import React, { Component, CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
 import { 
     Button, 
     Col, 
-    Form, FormFeedback, FormGroup, 
-    Input, 
-    Label, 
+    Form, 
     Modal, ModalBody, ModalFooter, ModalHeader, 
-    Row, 
-    Tooltip 
+    Row
 } from 'reactstrap';
 
 import "../css/NewGame.css";
+import { IGameInfo } from '../sharedTypes';
+import PlayerAiCheckbox from "./PlayerAiCheckbox";
+import PlayerNameInput from './PlayerNameInput';
 
-interface INGMProps {
+interface INewGameModalProps {
     close: () => void;
-    onChange: (e: any) => void;
-    p1AI: boolean;
-    p1Name: string;
-    p2AI: boolean;
-    p2Name: string
     shown: boolean;
-    submit: (e: any) => void;
-    validName: (player: string) => boolean;
 }
 
-export default class NewGameModal extends Component<INGMProps, {
-    p1AiOpen: boolean;
-    p2AiOpen: boolean;
-}> {
-    private linkStyles: CSSProperties = {
+export default class NewGameModal extends Component<INewGameModalProps, {}> {
+    private readonly linkStyles: CSSProperties = {
         color: "white", 
         display: "block", 
         height: "100%", 
         textDecoration: "none"
     };
-    constructor (props: INGMProps) {
+    private readonly p1NameRef: React.RefObject<PlayerNameInput>;
+    private readonly p2NameRef: React.RefObject<PlayerNameInput>;
+    private readonly p1AIRef: React.RefObject<PlayerAiCheckbox>;
+    private readonly p2AIRef: React.RefObject<PlayerAiCheckbox>;
+
+    public constructor (props: INewGameModalProps) {
         super(props);
-        this.state = {
-            p1AiOpen: false,
-            p2AiOpen: false,
-        }
-        this.toogleP1Ai = this.toogleP1Ai.bind(this);
-        this.toogleP2Ai = this.toogleP2Ai.bind(this);
+
+        this.p1NameRef = React.createRef();
+        this.p2NameRef = React.createRef();
+        this.p1AIRef = React.createRef();
+        this.p2AIRef = React.createRef();
+
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     public render () {
-        const formControlProps = {
-            maxLength: 20,
-            onChange: this.props.onChange,
-        };
-        const validP1Name = this.props.validName("p1Name");
-        const validP2Name = this.props.validName("p2Name");
         return (
-            <Modal isOpen={ this.props.shown } onExit={ this.props.close } size="lg" tabIndex={-1}>
+            <Modal 
+                isOpen={ this.props.shown } 
+                onExit={ this.props.close } 
+                size="lg" 
+                tabIndex={-1}>
                 <ModalHeader toggle={ this.props.close }>
                     Create A New Game
                 </ModalHeader>
@@ -62,91 +57,81 @@ export default class NewGameModal extends Component<INGMProps, {
                     <Form>
                         <Row>
                             <Col xs={6}>
-                                <FormGroup>
-                                    <h2>Player 1 (<span className="p1_name">Black</span>)</h2>
-                                    <Label for="p1Name">Player 1's Name:</Label>
-                                    <Input type="text" { ...formControlProps }
-                                        invalid={ !validP1Name }
-                                        name="p1Name"
-                                        valid={ validP1Name }
-                                        value={ this.props.p1Name }
-                                        />
-                                    <FormFeedback valid={false}>Sorry, that is not a valid name</FormFeedback>
-                                </FormGroup>
+                                <PlayerNameInput 
+                                    playerNumber={ 1 }
+                                    ref={ this.p1NameRef } />
                             </Col>
                             <Col xs={6}>
-                                <FormGroup>
-                                    <h2>Player 2 (<span className="p2_name">Red</span>)</h2>
-                                    <Label for="p2Name">Player 2's Name:</Label>
-                                    <Input type="text" { ...formControlProps }
-                                        invalid={ !validP2Name }
-                                        name="p2Name" 
-                                        value={ this.props.p2Name }  
-                                        valid={ validP2Name }/>
-                                    <FormFeedback valid={false}>Sorry, that is not a valid name</FormFeedback>
-                                </FormGroup>
+                                <PlayerNameInput
+                                    playerNumber={ 2 }
+                                    ref={ this.p2NameRef } />
                             </Col>
                         </Row>
                         <Row>
                             <Col xs={ 6 }>
-                                <FormGroup check={ true }>
-                                    <Label check={ true } id="p1AICheck">
-                                        <Input type="checkbox"
-                                            checked={ this.props.p1AI }
-                                            disabled={ true }
-                                            name="p1AI" 
-                                            onChange={ this.props.onChange } />
-                                        AI Player
-                                    </Label>
-                                    <Tooltip target="p1AICheck" 
-                                        isOpen={ this.state.p1AiOpen }
-                                        placement="bottom"
-                                        toggle={ this.toogleP1Ai }>
-                                        When checked, this player will be controled by the computer
-                                    </Tooltip>
-                                </FormGroup>
+                                <PlayerAiCheckbox
+                                    playerNumber={ 1 } 
+                                    ref={ this.p1AIRef } />
                             </Col>
                             <Col xs={ 6 }>
-                                <FormGroup check={ true }>
-                                    <Label check={ true } id="p2AICheck">
-                                        <Input type="checkbox"
-                                            checked={ this.props.p2AI }
-                                            disabled={ true }
-                                            name="p2AI"
-                                            onChange={ this.props.onChange } />
-                                        AI Player
-                                    </Label>
-                                    <Tooltip target="p2AICheck" 
-                                        isOpen={ this.state.p2AiOpen } 
-                                        placement="bottom" 
-                                        toggle={ this.toogleP2Ai }>
-                                        When checked, this player will be controled by the computer
-                                    </Tooltip>
-                                </FormGroup>
+                                <PlayerAiCheckbox 
+                                    playerNumber={ 2 } 
+                                    ref={ this.p2AIRef } />
                             </Col>
                         </Row>
                     </Form>
                 </ModalBody>
                 <ModalFooter>
-                    <Link to={ {pathname:"/play", search: "?index=0&newGame=true"} }
+                    <Link 
+                        to={{pathname:"/play", search:"?index=0&newGame=true"}}
                         style={ this.linkStyles } 
-                        onClick={ this.props.submit }>
+                        onClick={ this.handleSubmit }>
                         <Button color="success" size="lg">Play Game!</Button>
                     </Link>
                     <Button 
                         color="danger" 
                         size="lg" 
-                        onClick={ this.props.close }
-                    >Cancel</Button>
+                        onClick={ this.props.close }>
+                        Cancel
+                    </Button>
                 </ModalFooter>
             </Modal>
         );
     }
-    private toogleP1Ai (): void {
-        this.setState({ p1AiOpen: !this.state.p1AiOpen })
-    }
-    private toogleP2Ai(): void {
-        this.setState({ p2AiOpen: !this.state.p2AiOpen })
+    private handleSubmit (event: any): void {
+
+        if (this.p1NameRef.current && this.p2NameRef.current 
+            && this.p1AIRef.current && this.p2AIRef.current) {
+            const {name: p1Name, isValid: p1Valid } = this.p1NameRef.current.state;
+            const {name: p2Name, isValid: p2Valid } = this.p2NameRef.current.state;
+            if (p1Valid && p2Valid) {
+                const info: IGameInfo = {
+                    board: null,
+                    created: new Date(),
+                    isNewGame: true,
+                    last: new Date(),
+                    p1: {
+                        is_ai: this.p1AIRef.current.state.checked,
+                        name: p1Name,
+                        score: 0
+                    },
+                    p2: {
+                        is_ai: this.p2AIRef.current.state.checked,
+                        name: p2Name,
+                        score: 0
+                    },
+                    turn: 1
+                };
+                Lockr.prefix = "react_checkers";
+                const saved: IGameInfo[] = Lockr.get("saved_games") || [];
+                Lockr.set("saved_games", [info, ...saved]);
+                this.props.close();
+            } else {
+                event.preventDefault();
+            }
+        } else {
+            event.preventDefault();
+        }
     }
 }
 
