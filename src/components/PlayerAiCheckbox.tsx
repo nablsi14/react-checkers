@@ -28,7 +28,7 @@ export default class PlayerAiCheckbox
                 <Label check={ true } id={`p${this.props.playerNumber}AICheck`}>
                     <Input type="checkbox"
                         checked={ this.state.checked }
-                        disabled={ false }
+                        disabled={ true }
                         onChange={ this.handleChange }
                         />
                     AI Player
