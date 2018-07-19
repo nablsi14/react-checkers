@@ -14,7 +14,7 @@ interface IGameContainerProps {
 interface IGameContainerState {
     board: MoveTree;
     created: Date;
-    last: Date;
+    gameOver: boolean;
     isSaved: boolean;
     p2: IPlayerInfo;
     p1: IPlayerInfo;
@@ -189,10 +189,11 @@ export default class GameContainer
             });
         }
         // console.log(JSON.stringify(selected));
-        this.setState({selected});
+        let winner: string = "";
+        if (this.state.gameOver) {
+            const pNum = MoveTree.otherPlayer(this.state.board.current_player);
+            winner = this.state["p" + pNum].name;
     }
-    public render () {
-        
         return (
             <div>
                 <BoardMenu
@@ -207,6 +208,7 @@ export default class GameContainer
                     squares={ this.state.board.current_board }
                     turn={ this.state.board.current_player }
                 />
+                <GameOverModal shown={this.state.gameOver} winner={winner} />
             </div>
         );
 
