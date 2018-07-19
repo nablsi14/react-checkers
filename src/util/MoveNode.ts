@@ -49,7 +49,7 @@ export default class MoveNode {
         this.name = name;
         /**
          * The player whose turn it currently is,
-         * and whose valid moves are in _children
+         * and whose valid moves are in this.children
          * @type {number}
          */
         this.currentPlayer = player;
@@ -160,7 +160,9 @@ export default class MoveNode {
             // this._children.push(jumps);
             if (jumps.length === 0 && noJumps) {
                 // no jumps were found, so check for normal moves
-                this.children = this.children.concat(this.getNormMovesFrom(piece, MoveNode.clone(this.internalBoard), dirs));
+                this.children = this.children.concat(
+                    this.getNormMovesFrom(piece, MoveNode.clone(this.internalBoard), dirs)
+                );
                 
             } else {
                 // console.log("jump found"); 
@@ -168,9 +170,9 @@ export default class MoveNode {
                     make sure _children is empty so that only jumps will be in it*/
                 if (noJumps) {
                     this.children = [];
+                    // A jump has been found: no longer check for normal moves
+                    noJumps = false;
                 }
-                // A jump has been found: no longer check for normal moves
-                noJumps = false;
                 
                 // add jumps to moves
                 this.children = this.children.concat(jumps);
@@ -185,7 +187,7 @@ export default class MoveNode {
     private validMoveDirections ([row, col]: Position): IMoveVector[] {
         
         /**
-         * All the directions a piece can be moved
+         * All the directions a piece can be moved.
          * A kinged piece can move in all the directions listed
          */
         const DIRECTIONS: IDirections = {
