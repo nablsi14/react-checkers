@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import Board from "../components/board/Board";
 import BoardMenu from "../components/BoardMenu";
 import GameOverModal from "../components/GameOverModal";
-import ScoreBar, { IScoreBarProps } from "../components/ScoreBar";
+import ScoreBar from "../components/ScoreBar";
 import { IGameInfo, IPlayerInfo, Position } from "../sharedTypes";
 import MoveTree, { Player } from "../util/MoveTree";
 
@@ -22,11 +22,6 @@ interface IGameContainerState {
     p1: IPlayerInfo;
     selected: {
         [key: string]: boolean;
-    };
-    tempNames: {
-        p1: string | null;
-        p2: string | null;
-        [key: string]: string | null;
     };
     [key: string]: any;
 }
@@ -60,14 +55,11 @@ export default class GameContainer extends Component<
             last: game.last,
             p1: game.p1,
             p2: game.p2,
-            selected: {},
-            tempNames: {
-                p1: null,
-                p2: null
-            }
+            selected: {}
         };
-        this.makeMove = this.makeMove.bind(this);
         this.handleSquareClick = this.handleSquareClick.bind(this);
+        this.makeMove = this.makeMove.bind(this);
+        this.updateName = this.updateName.bind(this);
     }
 
     public componentDidMount(): void {
@@ -97,15 +89,10 @@ export default class GameContainer extends Component<
         }
         return score;
     }
-    public getScoreBarProps(): IScoreBarProps {
-        return {
-            onBlur: this.handleNameBlur.bind(this),
-            onChange: this.handleNameChange.bind(this),
-            onFocus: this.handleNameFocus.bind(this),
-            p1: this.state.p1 as IPlayerInfo,
-            p2: this.state.p2 as IPlayerInfo,
-            turn: this.state.board.current_player
-        };
+    public updateName(player: "p1" | "p2", newName: string): void {
+        const p = this.state[player];
+        p.name = newName;
+        this.setState({ [player]: p }, this.saveGame);
     }
     public handleBoardKeyPress(
         event: React.KeyboardEvent<GameContainer>
@@ -117,42 +104,6 @@ export default class GameContainer extends Component<
         if (event.key === "Enter") {
             this.makeMove();
         }
-    }
-    public handleNameChange(e: any): void {
-        const validName = (name: string) => !/<|>/g.test(name);
-
-        const newName = e.target.value;
-        if (!validName(newName)) {
-            return;
-        }
-        const player = this.state[e.target.name];
-        player.name = newName;
-        this.setState(
-            {
-                [e.target.name]: player
-            },
-            this.saveGame
-        );
-    }
-    public handleNameBlur(e: any): void {
-        if (e.target.value.trim().length === 0) {
-            // console.log(e.target.name);
-            const player = this.state[e.target.name];
-            player.name = this.state.tempNames[e.target.name];
-            // console.log(player);
-            this.setState(
-                {
-                    [e.target.name]: player
-                },
-                this.saveGame
-            );
-        }
-    }
-    public handleNameFocus(e: any): void {
-        const playerName = e.target.name;
-        const tempNames = this.state.tempNames;
-        tempNames[playerName] = this.state[playerName].name;
-        this.setState({ tempNames });
     }
     public handleSquareClick([row, col]: Position): void {
         if (this.state.locked) {
@@ -253,7 +204,12 @@ export default class GameContainer extends Component<
                     saved={this.state.isSaved}
                     onMakeMoveClick={this.makeMove}
                 />
-                <ScoreBar {...this.getScoreBarProps()} />
+                <ScoreBar
+                    updateName={this.updateName}
+                    turn={this.state.board.current_player}
+                    p1={this.state.p1}
+                    p2={this.state.p2}
+                />
                 <Board
                     onSquareClick={this.handleSquareClick}
                     onKeyPress={this.makeMove}

@@ -1,51 +1,44 @@
-import React from 'react';
+import React from "react";
 import "../css/ScoreBar.css";
 import { IPlayerInfo } from "../sharedTypes";
 import { Player } from "../util/MoveTree";
+import NameInput from "./NameInput";
 
-export interface IScoreBarProps {
-    onBlur: (e: any) => void;
-    onChange: (e: any) => void;
-    onFocus: (e: any) => void;
+interface IScoreBarProps {
+    updateName: (player: "p1" | "p2", newName: string) => void;
     turn: Player;
     p1: IPlayerInfo;
     p2: IPlayerInfo;
 }
 
-const ScoreBar = (props: IScoreBarProps) => (
-    <div id="score">
-        <div>
-            <input
-                maxLength={ 20 }
-                name="p1"
-                onBlur={ props.onBlur }
-                onChange={ props.onChange }
-                onFocus={ props.onFocus }
-                style={{
-                    color: "black",
-                    fontStyle: props.turn === 1 ? "italic" : "normal",
-                    marginLeft: "20px"
-                }}
-                value={ props.p1.name }
-                type="text"
-            />: <span className="score">{props.p1.score}</span>
+const ScoreBar = (props: IScoreBarProps) => {
+    const p1OnChange = (name: string) => props.updateName("p1", name);
+    const p2OnChange = (name: string) => props.updateName("p2", name);
+    return (
+        <div id="score">
+            <div>
+                <NameInput
+                    color="black"
+                    className="scoreNameInput"
+                    turn={props.turn === 1}
+                    onChange={p1OnChange}
+                    value={props.p1.name}
+                    style={{ marginLeft: "20px" }}
+                />
+                : <span className="score">{props.p1.score}</span>
+            </div>
+            <div className="float-right">
+                <NameInput
+                    color="red"
+                    className="scoreNameInput"
+                    turn={props.turn === 2}
+                    onChange={p2OnChange}
+                    value={props.p2.name}
+                />
+                : <span className="score">{props.p2.score}</span>
+            </div>
         </div>
-        <div className="float-right">
-                <input 
-                    maxLength={ 20 }
-                    name="p2"
-                    onBlur={ props.onBlur }
-                    onChange={ props.onChange }
-                    onFocus={ props.onFocus } 
-                    style={{
-                        color: "red", 
-                        fontStyle: props.turn === 2 ? "italic" : "normal"
-                    }}
-                    type="text" 
-                    value={ props.p2.name }
-                />: <span className="score">{props.p2.score}</span>
-        </div>
-    </div> 
-);
+    );
+};
 
 export default ScoreBar;
