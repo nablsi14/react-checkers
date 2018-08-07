@@ -67,10 +67,9 @@ export default class MoveNode {
                 for (const pos of row) {
                     switch (pos) {
                         case this.currentPlayer: 
-                            playerScore++; 
+                            playerScore += 1.1;
                             break;
-                        case this.currentPlayer + .1:
-                            playerScore += 3;
+                            playerScore += 3.1;
                             break;
                         case opponent:
                             opponentScore++;
