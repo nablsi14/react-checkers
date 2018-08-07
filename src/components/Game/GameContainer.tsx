@@ -1,12 +1,12 @@
 import Lockr from "lockr";
 import QueryString from "query-string";
 import React, { Component } from "react";
-import Board from "../components/board/Board";
-import BoardMenu from "../components/BoardMenu";
-import GameOverModal from "../components/GameOverModal";
-import ScoreBar from "../components/ScoreBar";
-import { IGameInfo, IPlayerInfo, Position } from "../sharedTypes";
-import MoveTree, { Player } from "../util/MoveTree";
+import { IGameInfo, IPlayerInfo, Position } from "../../sharedTypes";
+import MoveTree, { Player } from "../../util/MoveTree";
+import Board from "./Board/Board";
+import BoardMenu from "./BoardMenu/BoardMenu";
+import ScoreBar from "./BoardMenu/ScoreBar";
+import GameOverModal from "./GameOverModal";
 
 interface IGameContainerProps {
     location: any;

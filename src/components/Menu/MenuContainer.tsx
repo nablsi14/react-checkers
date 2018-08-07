@@ -1,8 +1,8 @@
 import Lockr from "lockr";
 import QueryString from "query-string";
 import React, { Component } from "react";
-import Menu from "../components/Menu";
-import { IGameInfo } from "../sharedTypes";
+import { IGameInfo } from "../../sharedTypes";
+import Menu from "./Menu";
 
 // declare const localStorageSupport: boolean;
 // declare var gameToLoad: boolean | null;

@@ -1,20 +1,19 @@
 #board {
     display: table;
     margin: auto;
-    width: 680px; 
+    width: 680px;
     border-style: solid;
     border-width: 20px;
     transition: border-color 1s;
     -webkit-transition: border-color 1s;
 }
 #board .square:nth-child(odd) {
-    background-color: #FFF;
+    background-color: #fff;
 }
 #board .square:nth-child(even) {
     background-color: #000;
 }
 #board .square.selected {
-    
     background-color: grey;
 }
 .hidden {
@@ -35,13 +34,13 @@
     z-index: 5;
     background-repeat: no-repeat;
     background-position: center center;
-    background-size: 75px 75px
+    background-size: 75px 75px;
 }
 .piece img {
     display: none;
 }
 .piece.king img {
-     display: inline; 
+    display: inline;
     -webkit-filter: invert(1);
     filter: invert(1);
     left: 10px;
@@ -50,11 +49,11 @@
     width: 60px; /*do not remove, does effect styling*/
 }
 .piece.selected {
-    background-color: #FF5;
+    background-color: #ff5;
 }
 .p1 {
-    background-image: url("../images/black_piece.png");
+    background-image: url("../../../images/black_piece.png");
 }
 .p2 {
-    background-image: url("../images/red_piece.png");
+    background-image: url("../../../images/red_piece.png");
 }

@@ -1,7 +1,7 @@
-import React from 'react';
-import Piece from './Piece';
+import React from "react";
+import Piece from "./Piece";
 
-import "../../css/Board.css";
+import "./Board.css";
 
 interface ISquareProps {
     player: number;
@@ -15,14 +15,15 @@ const Square = (props: ISquareProps) => {
     const isSelected = props.player === 0 && props.selected;
     const click = () => props.onClick(props.position);
     return (
-        <div className={ "square " + (isSelected ? "selected" :"")} 
+        <div
+            className={"square " + (isSelected ? "selected" : "")}
             onClick={click}>
-            {player !== 0 && 
-                <Piece 
-                    player={player} 
+            {player !== 0 && (
+                <Piece
+                    player={player}
                     selected={props.selected && player !== 0}
                 />
-            }
+            )}
         </div>
     );
 };

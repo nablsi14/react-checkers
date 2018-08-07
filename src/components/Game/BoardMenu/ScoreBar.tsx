@@ -1,8 +1,8 @@
 import React from "react";
-import "../css/ScoreBar.css";
-import { IPlayerInfo } from "../sharedTypes";
-import { Player } from "../util/MoveTree";
+import { IPlayerInfo } from "../../../sharedTypes";
+import { Player } from "../../../util/MoveTree";
 import NameInput from "./NameInput";
+import "./ScoreBar.css";
 
 interface IScoreBarProps {
     updateName: (player: "p1" | "p2", newName: string) => void;

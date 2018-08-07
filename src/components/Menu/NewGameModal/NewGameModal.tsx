@@ -13,8 +13,8 @@ import {
     Row
 } from "reactstrap";
 
-import "../css/NewGame.css";
-import { IGameInfo } from "../sharedTypes";
+import { IGameInfo } from "../../../sharedTypes";
+import "./NewGame.css";
 import PlayerAiCheckbox from "./PlayerAiCheckbox";
 import PlayerNameInput from "./PlayerNameInput";
 
