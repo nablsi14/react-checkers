@@ -1,35 +1,114 @@
-import QueryString from 'query-string';
-import React, { Component } from 'react';
+import React, { Component, CSSProperties } from "react";
 import * as FontAwesome from "react-icons/lib/fa";
-import { Button } from 'reactstrap';
+import { Button } from "reactstrap";
+import * as data from "./htp.json";
+import Section from "./Section";
 
-interface IHTPProps {
-    location: any;
-    history: string[]
+interface ISectionData {
+    title: string;
+    contents?: string[];
+    children?: ISectionData[];
 }
 
-export default class HowToPlay 
-        extends Component<IHTPProps, {}> {
-    public back () {
-        const querys = QueryString.parse(this.props.location.search);
-        
-        if (querys.from === "play") {
-            this.props.history.push("/play");
-        } else {
-            this.props.history.push('/menu');
-        }
+interface IHTPProps {
+    history: any;
+}
+interface IHTPState {
+    displayButton: boolean;
+    sections: ISectionData[];
+}
+export default class HowToPlay extends Component<IHTPProps, IHTPState> {
+    constructor(props: IHTPProps) {
+        super(props);
+        this.state = {
+            displayButton: false,
+            sections: data as any
+        };
+        this.handleScroll = this.handleScroll.bind(this);
+        this.handleButtonClick = this.handleButtonClick.bind(this);
     }
-    public render () {
-        const back = this.back.bind(this);
+    public componentDidMount() {
+        window.addEventListener("scroll", this.handleScroll);
+    }
+
+    public render(): JSX.Element {
+        const bttBtnStyles: CSSProperties = {
+            bottom: "20px",
+            display: this.state.displayButton ? "initial" : "none",
+            position: "fixed",
+            right: "30px",
+            zIndex: 99
+        };
+
+        const tableOfContents = this.generateTableOfContents(
+            this.state.sections
+        );
+        const sectionTree = this.generateSectionTree(this.state.sections);
         return (
-            <div>
-                <h1>How To Play</h1>
-                <Button color="success" onClick={back} style={{width: "200px"}}>
-                    <FontAwesome.FaChevronLeft />
-                    Back
+            <div
+                style={{
+                    backgroundColor: "lightGrey",
+                    borderRadius: "10px",
+                    margin: "20px",
+                    padding: "20px"
+                }}>
+                <h1 className="text-center">How to Play</h1>
+                <Button color="primary" onClick={this.props.history.goBack}>
+                    <FontAwesome.FaLongArrowLeft fontSize="1.5em" /> Back
                 </Button>
-                <p>Sorry, instructions not yet added.</p>
+                <h2>Table of Contents</h2>
+                {tableOfContents}
+
+                {sectionTree}
+                <Button
+                    color="primary"
+                    style={bttBtnStyles}
+                    onClick={this.handleButtonClick}>
+                    Back to top
+                </Button>
             </div>
         );
-    }   
+    }
+    private generateTableOfContents(
+        root: ISectionData[],
+        level = 1
+    ): JSX.Element {
+        return (
+            <ul style={{ listStyleType: "none" }}>
+                {root.map(({ title, children }, i) => (
+                    <li key={i} style={{ marginLeft: "-1.2em" }}>
+                        <a href={`#sec${i}-${level}`}>{title}</a>
+                        {children &&
+                            this.generateTableOfContents(children, level + 1)}
+                    </li>
+                ))}
+            </ul>
+        );
+    }
+    private generateSectionTree(
+        root: ISectionData[],
+        level = 1
+    ): JSX.Element[] {
+        return root.map(({ title, contents, children }, i) => (
+            <Section
+                title={title}
+                contents={contents}
+                key={i}
+                level={level}
+                id={`sec${i}-${level}`}>
+                {children && this.generateSectionTree(children, level + 1)}
+            </Section>
+        ));
+    }
+    private handleScroll(): void {
+        if (window.scrollY > 20) {
+            this.setState({ displayButton: true });
+        } else {
+            this.setState({ displayButton: false });
+        }
+    }
+    private handleButtonClick() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
 }

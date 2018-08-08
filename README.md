@@ -26,4 +26,4 @@ The purpose of creating this project was to learn the [React](https://github.com
 
 ## Upcoming Features
 
--   Instructions on how to play/control the UI
+-   There are no planned upcoming features at this time
