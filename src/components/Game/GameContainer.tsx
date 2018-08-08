@@ -10,7 +10,7 @@ import GameOverModal from "./GameOverModal";
 
 interface IGameContainerProps {
     location: any;
-    history: string[];
+    history: any;
 }
 interface IGameContainerState {
     board: MoveTree;
@@ -44,6 +44,10 @@ export default class GameContainer extends Component<
 
         if (isNaN(index) || index < 0 || index >= savedGames.length) {
             index = 0;
+        }
+
+        if (index === 0 && savedGames.length === 0) {
+            savedGames.push(this.getNewEmptyGame());
         }
         const game: IGameInfo = savedGames[index];
 
@@ -253,5 +257,24 @@ export default class GameContainer extends Component<
             this.setState({ isSaved: true });
             // console.log("game saved");
         }
+    }
+    private getNewEmptyGame(): IGameInfo {
+        return {
+            board: null,
+            created: new Date(),
+            isNewGame: true,
+            last: new Date(),
+            p1: {
+                is_ai: false,
+                name: "Player 1",
+                score: 0
+            },
+            p2: {
+                is_ai: false,
+                name: "Player 2",
+                score: 0
+            },
+            turn: 1
+        };
     }
 }
