@@ -20,7 +20,7 @@ const Piece = (props: IPieceProps) => {
                     selected ? "selected" : ""
                 }`
             }>
-            <img src={crown} alt="king" />
+            <img src={crown} alt="king" width="60px" />
         </div>
     );
 };

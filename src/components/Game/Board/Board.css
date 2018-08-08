@@ -46,7 +46,6 @@
     left: 10px;
     position: relative;
     top: 20px;
-    width: 60px; /*do not remove, does effect styling*/
 }
 .piece.selected {
     background-color: #ff5;
