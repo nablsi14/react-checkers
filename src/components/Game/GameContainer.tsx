@@ -25,14 +25,42 @@ interface IGameContainerState {
     };
     [key: string]: any;
 }
+
 export default class GameContainer extends Component<
     IGameContainerProps,
     IGameContainerState
 > {
+    public readonly state: IGameContainerState = {
+        board: new MoveTree(null),
+        created: new Date(),
+        gameOver: false,
+        isSaved: false,
+        last: new Date(),
+        p1: {
+            is_ai: false,
+            name: "Player 1",
+            score: 0
+        },
+        p2: {
+            is_ai: false,
+            name: "Player 2",
+            score: 0
+        },
+        selected: {}
+    };
     constructor(props: IGameContainerProps) {
         super(props);
-        const savedGames: IGameInfo[] = Lockr.get("saved_games") || [];
+        this.handleSquareClick = this.handleSquareClick.bind(this);
+        this.makeMove = this.makeMove.bind(this);
+        this.updateName = this.updateName.bind(this);
+    }
 
+    public componentDidMount(): void {
+        // Allow a player to make a move by double-clicking the screen.
+        // This is mainly for touchscreen users.
+        window.addEventListener("dblclick", this.makeMove);
+
+        const savedGames: IGameInfo[] = Lockr.get("saved_games") || [];
         const querys: any = QueryString.parse(this.props.location.search);
 
         if (querys.newGame === "true") {
@@ -46,29 +74,27 @@ export default class GameContainer extends Component<
         }
 
         if (index === 0 && savedGames.length === 0) {
-            savedGames.push(this.getNewEmptyGame());
+            return;
         }
         const game: IGameInfo = savedGames[index];
 
-        this.state = {
+        this.setState({
             board: new MoveTree(game.board, game.turn, 5),
             created: game.created,
-            gameOver: false,
             isSaved: !querys.newGame,
             last: game.last,
-            p1: game.p1,
-            p2: game.p2,
-            selected: {}
-        };
-        this.handleSquareClick = this.handleSquareClick.bind(this);
-        this.makeMove = this.makeMove.bind(this);
-        this.updateName = this.updateName.bind(this);
-    }
+            p1: {
+                is_ai: game.p1.is_ai,
+                name: game.p1.name,
+                score: game.p1.score
+            },
+            p2: {
+                is_ai: game.p2.is_ai,
+                name: game.p2.name,
+                score: game.p2.score
+            }
+        });
 
-    public componentDidMount(): void {
-        // Allow a player to make a move by double-clicking the screen.
-        // This is mainly for touchscreen users.
-        window.addEventListener("dblclick", this.makeMove);
         if (this.currentPlayerIsAI()) {
             const selected = Object.create(null);
             this.state.board
@@ -261,24 +287,5 @@ export default class GameContainer extends Component<
             this.setState({ isSaved: true });
             // console.log("game saved");
         }
-    }
-    private getNewEmptyGame(): IGameInfo {
-        return {
-            board: null,
-            created: new Date(),
-            isNewGame: true,
-            last: new Date(),
-            p1: {
-                is_ai: false,
-                name: "Player 1",
-                score: 0
-            },
-            p2: {
-                is_ai: false,
-                name: "Player 2",
-                score: 0
-            },
-            turn: 1
-        };
     }
 }

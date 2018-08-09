@@ -20,9 +20,9 @@ const ScoreBar = (props: IScoreBarProps) => {
                 <NameInput
                     color="black"
                     className="scoreNameInput"
+                    defaultValue={props.p1.name}
                     turn={props.turn === 1}
                     onChange={p1OnChange}
-                    value={props.p1.name}
                     style={{ marginLeft: "20px" }}
                 />
                 : <span className="score">{props.p1.score}</span>
@@ -31,9 +31,9 @@ const ScoreBar = (props: IScoreBarProps) => {
                 <NameInput
                     color="red"
                     className="scoreNameInput"
+                    defaultValue={props.p2.name}
                     turn={props.turn === 2}
                     onChange={p2OnChange}
-                    value={props.p2.name}
                 />
                 : <span className="score">{props.p2.score}</span>
             </div>

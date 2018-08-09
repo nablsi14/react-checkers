@@ -7,7 +7,7 @@ interface INameInputProps {
     onChange: (name: string) => void;
     style?: CSSProperties;
     turn: boolean;
-    value: string;
+    defaultValue: string;
 }
 
 interface INameInputState {
@@ -18,11 +18,19 @@ export default class NameInput extends Component<
     INameInputProps,
     INameInputState
 > {
+    public static getDerivedStateFromProps(
+        props: INameInputProps,
+        state: INameInputState
+    ): INameInputState {
+        return {
+            value: props.defaultValue
+        };
+    }
+    public readonly state: INameInputState = {
+        value: this.props.defaultValue
+    };
     constructor(props: INameInputProps) {
         super(props);
-        this.state = {
-            value: props.value
-        };
         this.onBlur = this.onBlur.bind(this);
         this.onChange = this.onChange.bind(this);
     }
@@ -30,6 +38,7 @@ export default class NameInput extends Component<
         // let the parent component know that the value has been changed
         this.props.onChange(this.state.value);
     }
+
     public render(): JSX.Element {
         return (
             <input
