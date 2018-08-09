@@ -30,7 +30,9 @@ export default class HowToPlay extends Component<IHTPProps, IHTPState> {
     public componentDidMount() {
         window.addEventListener("scroll", this.handleScroll);
     }
-
+    public componentWillUnmount() {
+        window.removeEventListener("scroll", this.handleScroll);
+    }
     public render(): JSX.Element {
         const bttBtnStyles: CSSProperties = {
             bottom: "20px",
