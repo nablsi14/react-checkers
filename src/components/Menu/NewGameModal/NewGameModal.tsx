@@ -168,7 +168,6 @@ export default class NewGameModal extends Component<
                     },
                     turn: 1
                 };
-                Lockr.prefix = "react_checkers";
                 const saved: IGameInfo[] = Lockr.get("saved_games") || [];
                 Lockr.set("saved_games", [info, ...saved]);
                 this.props.close();

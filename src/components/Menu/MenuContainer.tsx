@@ -19,7 +19,6 @@ export default class MenuContainer extends Component<
 > {
     constructor(props: {}) {
         super(props);
-        Lockr.prefix = "react_checkers";
         this.state = {
             saved: [],
             showAlert: false,

@@ -31,7 +31,6 @@ export default class GameContainer extends Component<
 > {
     constructor(props: IGameContainerProps) {
         super(props);
-        Lockr.prefix = "react_checkers";
         const savedGames: IGameInfo[] = Lockr.get("saved_games") || [];
 
         const querys: any = QueryString.parse(this.props.location.search);
@@ -232,7 +231,6 @@ export default class GameContainer extends Component<
         );
     }
     public saveGame() {
-        Lockr.prefix = "react_checkers";
         if (typeof Storage === "undefined") {
             // console.warn('This browser does not support localstroage. Unable to save games.');
             this.setState({ isSaved: false });
