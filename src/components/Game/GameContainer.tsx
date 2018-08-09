@@ -1,6 +1,7 @@
 import Lockr from "lockr";
 import QueryString from "query-string";
 import React, { Component } from "react";
+import { match } from "react-router";
 import { IGameInfo, IPlayerInfo, Position } from "../../sharedTypes";
 import MoveTree, { Player } from "../../util/MoveTree";
 import Board from "./Board/Board";
@@ -10,7 +11,7 @@ import GameOverModal from "./GameOverModal";
 
 interface IGameContainerProps {
     location: any;
-    history: any;
+    match: match<{ index: number }>;
 }
 interface IGameContainerState {
     board: MoveTree;
@@ -67,7 +68,7 @@ export default class GameContainer extends Component<
             Lockr.set("saved_games", savedGames.slice(1));
         }
 
-        let index: number = querys.index;
+        let index: number = this.props.match.params.index;
 
         if (isNaN(index) || index < 0 || index >= savedGames.length) {
             index = 0;

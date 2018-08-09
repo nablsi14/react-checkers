@@ -100,8 +100,8 @@ export default class NewGameModal extends Component<
                 <ModalFooter>
                     <Link
                         to={{
-                            pathname: "/play",
-                            search: "?index=0&newGame=true"
+                            pathname: "/play/0",
+                            search: "?newGame=true"
                         }}
                         style={this.linkStyles}
                         onClick={this.handleSubmit}>

@@ -7,7 +7,7 @@ import HowToPlay from "./HowToPlay/HowToPlay";
 const Routes = () => (
     <Switch>
         <Route path="/menu" exact={true} component={MenuContainer} />
-        <Route path="/play" component={GameContainer} />
+        <Route path="/play/:index" component={GameContainer} />
         <Route path="/howtoplay" component={HowToPlay} />
         <Redirect to="/menu" />
     </Switch>
