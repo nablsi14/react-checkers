@@ -67,6 +67,9 @@ export default class GameContainer extends Component<
     }
 
     public componentDidMount(): void {
+        // Allow a player to make a move by double-clicking the screen.
+        // This is mainly for touchscreen users.
+        window.addEventListener("dblclick", this.makeMove);
         if (this.currentPlayerIsAI()) {
             const selected = Object.create(null);
             this.state.board
@@ -76,6 +79,9 @@ export default class GameContainer extends Component<
                 window.setTimeout(this.makeMove, 750);
             });
         }
+    }
+    public componentWillUnmount() {
+        window.removeEventListener("dblclick", this.makeMove);
     }
     public currentPlayerIsAI(): boolean {
         const player: Player = this.state.board.current_player;

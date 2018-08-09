@@ -12,7 +12,7 @@
                     "To selcet your move, click on the piece you wish to move, followed by the square you want to move it to.",
                     "When you click one of your pieces, the background will turn light yellow to show it has been selected as the piece you wish to move. When you click on an empty square, the background will turn a light grey to show that it is the square you have seclected to move the piece to.",
                     "If you accidentally click on a wrong piece or empty square, simply click on the a different piece or the same piece again to start selecting your move again.",
-                    "Once you have properly selected your move, click the \"Make Move\" button, or press <kbd>Enter</kbd>."
+                    "Once you have properly selected your move, click the \"Make Move\" button, press <kbd>Enter</kbd>, or double-click on the square you want your piece to land on."
                 ]
             },
             {
