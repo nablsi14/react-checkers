@@ -7,6 +7,7 @@ const styles: CSSProperties = {
     position: "absolute",
     width: "100%"
 }
+
 const Footer = () => (
     <footer style={ styles }>
         <hr />
@@ -15,5 +16,4 @@ const Footer = () => (
         </p>
     </footer>
 );
-
 export default Footer;

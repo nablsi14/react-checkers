@@ -13,6 +13,7 @@ interface IGameContainerProps {
     location: any;
     match: match<{ index: number }>;
 }
+
 interface IGameContainerState {
     board: MoveTree;
     created: Date;

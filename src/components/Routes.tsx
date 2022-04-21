@@ -8,10 +8,12 @@ const AsyncGameContainer = Loadable({
     loader: () => import("./Game/GameContainer"),
     loading: Loading
 });
+
 const AsyncHowToPlay = Loadable({
     loader: () => import("./HowToPlay/HowToPlay"),
     loading: Loading
 });
+
 const Routes = () => (
     <Switch>
         <Route path="/menu" exact={true} component={MenuContainer} />
@@ -20,5 +22,4 @@ const Routes = () => (
         <Redirect to="/menu" />
     </Switch>
 );
-
 export default Routes;

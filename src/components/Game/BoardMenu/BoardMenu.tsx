@@ -9,9 +9,14 @@ interface IBoardMenuProps {
     onMakeMoveClick: () => void;
     saved: boolean;
 }
+
+interface IBoardMenuState {
+    showTooltip: boolean;
+}
+
 export default class BoardMenu extends Component<
     IBoardMenuProps,
-    { showTooltip: boolean }
+    IBoardMenuState
 > {
     constructor(props: IBoardMenuProps) {
         super(props);

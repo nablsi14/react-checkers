@@ -4,12 +4,12 @@ import { Container } from 'reactstrap';
 import Footer from './Footer';
 import Routes from './Routes';
 
-
 const styles: CSSProperties = {
     minWidth: "800px",
     padding: "0 0 100px",
     position: "relative"
 };
+
 const titleStyles: CSSProperties = {
     fontFamily: "Roboto, sans-serif",
     fontSize: "50px",

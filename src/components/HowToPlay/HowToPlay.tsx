@@ -13,10 +13,12 @@ interface ISectionData {
 interface IHTPProps {
     history: any;
 }
+
 interface IHTPState {
     displayButton: boolean;
     sections: ISectionData[];
 }
+
 export default class HowToPlay extends Component<IHTPProps, IHTPState> {
     constructor(props: IHTPProps) {
         super(props);

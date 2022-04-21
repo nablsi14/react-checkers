@@ -40,5 +40,4 @@ const ScoreBar = (props: IScoreBarProps) => {
         </div>
     );
 };
-
 export default ScoreBar;
