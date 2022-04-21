@@ -30,6 +30,7 @@ export enum Player {
     PLAYER_1, // 1
     PLAYER_2 // 2
 }
+
 export default class MoveTree {
     /**
      * Returns the player who is not the one passed.

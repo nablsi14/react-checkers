@@ -1,5 +1,7 @@
 import React from "react";
 
+const tags: Array<("h1" | "h2" | "h3" | "h4" | "h5" | "h6")> = ["h1", "h2", "h3", "h4", "h5", "h6"]
+
 export interface ISectionProps {
     children?: any;
     contents?: string[];
@@ -7,10 +9,10 @@ export interface ISectionProps {
     id: string;
     title: string;
 }
+
 const Section = (props: ISectionProps) => {
-    const TitleTag = `h${
-        props.level < 6 ? (props.level > 0 ? props.level : 1) : 6
-    }`;
+    const level = props.level < 6 ? (props.level > 0 ? props.level : 1) : 6
+    const TitleTag: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" = tags[level]
     return (
         <div>
             <TitleTag id={props.id}>{props.title}</TitleTag>
@@ -28,5 +30,4 @@ const Section = (props: ISectionProps) => {
         </div>
     );
 };
-
 export default Section;

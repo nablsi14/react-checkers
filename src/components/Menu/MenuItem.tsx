@@ -18,9 +18,12 @@ export default class MenuItem extends Component<
     IMenuItemProps,
     IMenuItemState
 > {
-    public state: IMenuItemState = {
-        showButtons: false
-    };
+    constructor(props: IMenuItemProps) {
+        super(props);
+        this.state = {
+            showButtons: false
+        };
+    }
 
     public render() {
         const deleteGame = () => this.props.deleteGame(this.props.index);

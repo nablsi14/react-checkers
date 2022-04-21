@@ -4,6 +4,7 @@ import { FormGroup, Input, Label, Tooltip } from "reactstrap";
 interface IPlayerAiCheckboxProps {
     readonly playerNumber: 1 | 2;
 }
+
 interface IPlayerAiCheckboxState {
     checked: boolean;
     showTooltip: boolean;

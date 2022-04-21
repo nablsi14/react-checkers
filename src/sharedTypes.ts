@@ -1,7 +1,5 @@
-
 export type Position = [number, number];
 export type NodeName = Position[];
-
 
 export interface IDirections {
     1: IMoveVector[],

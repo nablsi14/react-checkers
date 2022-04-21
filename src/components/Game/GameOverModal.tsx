@@ -28,5 +28,4 @@ const GameOverModal = (props: IGameOverModalProps) => (
         </ModalFooter>
     </Modal>
 );
-
 export default GameOverModal;

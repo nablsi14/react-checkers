@@ -23,9 +23,13 @@ interface INewGameModalProps {
     shown: boolean;
 }
 
+interface INewGameModalState {
+    showAlert: boolean;
+}
+
 export default class NewGameModal extends Component<
     INewGameModalProps,
-    { showAlert: boolean }
+    INewGameModalState
 > {
     private readonly linkStyles: CSSProperties = {
         color: "white",

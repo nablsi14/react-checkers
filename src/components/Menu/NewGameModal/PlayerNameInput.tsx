@@ -4,10 +4,12 @@ import { FormFeedback, FormGroup, Input, Label } from "reactstrap";
 interface IPlayerNameInputProps {
     readonly playerNumber: 1 | 2;
 }
+
 interface IPlayerNameInputState {
     isValid: boolean;
     name: string;
 }
+
 export default class PlayerNameInput extends Component<
     IPlayerNameInputProps,
     IPlayerNameInputState

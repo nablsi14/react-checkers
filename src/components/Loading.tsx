@@ -1,4 +1,5 @@
 import React from "react";
+
 interface ILoadingProps {
     isLoading: boolean;
     error: boolean;
@@ -13,5 +14,4 @@ const Loading = ({ isLoading, error }: ILoadingProps) => {
         return null;
     }
 };
-
 export default Loading;
